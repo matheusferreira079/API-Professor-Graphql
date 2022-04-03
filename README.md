@@ -4,6 +4,12 @@
 
 #
 ## Instalação
+**Clone o repositório do projeto em sua máquina com o comando:** 
 ```bash
 git clone https://github.com/matheusferreira079/api-professor-graphql
+```
+
+**Abra o terminal na pasta raiz do projeto e instale as bibliotecas necessárias com o comando:**
+```bash
+npm i
 ```

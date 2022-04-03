@@ -1,0 +1,28 @@
+type Professor {
+    id: Int
+    nome: String
+    email: String
+    disciplina: Disciplina
+}
+
+input ProfessorInput {
+    nome: String
+    email: String
+    disciplina: Int
+}
+
+input FiltroInput {
+    id: Int 
+    email: String
+}
+
+type Query {
+    professor(filtro: FiltroInput): Professor
+    professores: [Professor]
+}
+
+type Mutation {
+    criarProfessor(data: ProfessorInput): Professor!
+    atualizaProfessor(id: Int!, data: ProfessorInput): Professor!
+    deletaProfessor(filtro: FiltroInput!): Boolean
+}

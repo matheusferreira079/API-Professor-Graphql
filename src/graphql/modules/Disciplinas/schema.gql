@@ -1,0 +1,17 @@
+enum NomeDisciplina {
+    PI
+    BD
+    ALG
+    TI
+    ARQUICOMP
+}
+
+type Disciplina {
+    id: Int
+    nome: NomeDisciplina
+    cargaHoraria: Int
+}
+
+type Query {
+    disciplinas: [Disciplina]
+}

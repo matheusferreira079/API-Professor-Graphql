@@ -13,3 +13,11 @@ git clone https://github.com/matheusferreira079/api-professor-graphql
 ```bash
 npm i
 ```
+**Já podemos rodar nosso projeto localmente com o comando:**
+```bash
+npm start
+```
+
+## Uso da aplicação
+
+**No seu navegador digite a URL: localhost://4000**

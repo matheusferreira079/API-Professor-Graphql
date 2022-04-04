@@ -1,3 +1,7 @@
+# No arquivo .gql(GraphQL) é aonde definimos nossos objetos(types) que posteriomente 
+# irá ser implementado a logica no documento resolvers.js
+# nesse arquivo schema definimos os objetos que difinem os professores
+
 type Professor {
     id: Int
     nome: String

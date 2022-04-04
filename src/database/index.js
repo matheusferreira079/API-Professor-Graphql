@@ -1,3 +1,9 @@
+/* 
+Esse é o database da aplicação. 
+São dados mocados que quando api é reiniciada volta ao
+formato original.
+*/
+
 module.exports = {
     professores: [
         {

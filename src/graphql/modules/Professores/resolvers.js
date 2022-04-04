@@ -1,12 +1,12 @@
 const database = require('../../../database');
 
-function geradorDeId(lista){
+function geradorDeId(lista) {
     let novoId;
     let ultimo = lista[lista.length - 1];
 
-    if(!ultimo){
+    if (!ultimo) {
         novoId = 0;
-    } else{
+    } else {
         novoId = ultimo.id;
     }
 
@@ -21,11 +21,11 @@ module.exports = {
     },
     Query: {
         professor(_, { filtro }) {
-            if(filtro.id) {
+            if (filtro.id) {
                 return database.professores.find((db) => db.id === filtro.id);
-            } else {
+            } else if (filtro.email) {
                 return database.professores.find((db) => db.email === filtro.email);
-            }
+            } 
         },
         professores: () => database.professores,
     },
@@ -34,6 +34,7 @@ module.exports = {
             const { email } = data;
 
             const professorExistente = database.professores.some((p) => p.email === email);
+
 
             if (professorExistente) {
                 throw new Error(`Professor ${data.nome} já existe no Base de Dados`);

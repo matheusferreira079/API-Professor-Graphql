@@ -12,4 +12,4 @@ const server = new ApolloServer({
   },
 });
 
-server.listen().then(({ url }) => console.log(url));
+server.listen().then(({ url }) => console.log(`\n\nAplicação rodando na porta: ${url}`));

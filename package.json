@@ -8,7 +8,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Baseada na API ensinada pelo desenvolvedor Washington do canal Washington Developer(Youtube)",
   "license": "ISC",
   "devDependencies": {
     "nodemon": "^2.0.2"

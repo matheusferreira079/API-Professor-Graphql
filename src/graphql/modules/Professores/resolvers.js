@@ -1,4 +1,6 @@
-const database = require('../../../database');
+const database = require('../Disciplinas/querys/mysql_getDisciplinas');
+const filtros = require('../Disciplinas/querys/getProfessorFiltro')
+const todosProfessores = require('..//Disciplinas/querys/getProfessores')
 /* 
 Esses são os resolvers do objeto professor.
 */
@@ -22,30 +24,38 @@ function geradorDeId(lista) {
 
 module.exports = {
     Professor: {
-        disciplina(professor) {
+        async disciplina(professor) {
             /* 
                 Esse resolver tem a função de procurar a disciplina do professor que foi passado como 
                 parametro e retorna a disciplina se for achado.
             */
-            return database.disciplinas.find((d) => d.id === professor.disciplina);
+            let disciplinaFiltrada = await database.funcDisciplinaId(professor.disciplina)
+            //console.log("Professor", disciplinaFiltrada)
+
+            return disciplinaFiltrada[0];
         },
     },
     Query: {
         /* 
             Bloco de querys, que são aonde pesquisamos as informações da api.
         */
-        professor(_, { filtro }) {
+        async professor(_, { filtro }) {
             /* 
                 Esse resolver procura um professor atraves de um filtro
                 que pode ser o Email ou ID do professor
             */
+            let filtrado = await filtros
+
             if (filtro.id) {
-                return database.professores.find((db) => db.id === filtro.id);
+                let retornoId = filtrado.func(filtro.id)
+
+                return retornoId
             } else if (filtro.email) {
-                return database.professores.find((db) => db.email === filtro.email);
-            } 
+                let retornoEmail = filtrado.funcEmail(filtro.email)
+                return retornoEmail;
+            }
         },
-        professores: () => database.professores,
+        professores: () => todosProfessores.func(),
         /* 
             O  resolver professores retorna a lista de professores que existe na base de dados.
         */
@@ -61,8 +71,8 @@ module.exports = {
                 faz algumas validações e retorna o professor caso ele seja criadocom sucesso.
 
             */
+            console.log("testetekavcs cas")
             const { email } = data;
-
             const professorExistente = database.professores.some((p) => p.email === email);
 
 

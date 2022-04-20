@@ -28,5 +28,5 @@ type Query {
 type Mutation {
     criarProfessor(data: ProfessorInput): Professor!
     atualizaProfessor(id: Int!, data: ProfessorInput): Professor!
-    deletaProfessor(filtro: FiltroInput!): Boolean
+    deletaProfessor(email:String): String
 }

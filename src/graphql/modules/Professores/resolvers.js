@@ -1,6 +1,12 @@
 const database = require('../Disciplinas/querys/mysql_getDisciplinas');
+const professorFind = require('../Disciplinas/querys/getProfessorFiltro');
+const insertProf = require('../Disciplinas/querys/insertProfessor');
+
 const filtros = require('../Disciplinas/querys/getProfessorFiltro')
 const todosProfessores = require('..//Disciplinas/querys/getProfessores')
+const update = require('..//Disciplinas/querys/updateProfessor')
+const deletar = require('..//Disciplinas/querys/deletarProfessor')
+
 /* 
 Esses são os resolvers do objeto professor.
 */
@@ -64,57 +70,56 @@ module.exports = {
         /* 
             Bloco das mutations da API, aonde criamos editamos e excluimos informações.
         */
-        criarProfessor(_, { data }) {
+        async criarProfessor(_, { data }) {
             /* 
                 Esse resolver tem a função de criar um novo professor 
                 com os dados que foi passado no parametro data,
                 faz algumas validações e retorna o professor caso ele seja criadocom sucesso.
 
             */
-            console.log("testetekavcs cas")
             const { email } = data;
-            const professorExistente = database.professores.some((p) => p.email === email);
+            const professorExistente = await professorFind.funcEmail(email)
+            const obj = Object.assign({}, data)
 
-
-            if (professorExistente) {
+            if (typeof professorExistente !== "undefined") {
                 throw new Error(`Professor ${data.nome} já existe no Base de Dados`);
             }
 
             const novoProfessor = {
-                ...data,
-                id: geradorDeId(database.professores),
-                disciplinas_id: 1
+                nome: obj.nome,
+                email: obj.email,
+                disciplinas_id: obj.disciplina
             };
-
-            database.professores.push(novoProfessor);
-
-            return novoProfessor;
+            await insertProf.insertProf(novoProfessor)
+            const resposta = await filtros.funcEmail(obj.email)
+            return resposta;
         },
-        atualizaProfessor(_, { id, data }) {
+        async atualizaProfessor(_, { id, data }) {
             /* 
                 Esse resolver é aonde atualizamos o professor, ele recebe o ID do professor que queremos
                 atualizar e a informação que queemos atualizar, que pode ser apenas uma ou 
                 todas as informações do professor. E retorna o professor atualizado
             */
-            const professor = database.professores.find((p) => p.id === id);
-            const indice = database.professores.findIndex((u) => u.id === id);
+            const professor = await filtros.func(id)
+            console.log(professor)
+            const objAtualizacao = Object.assign({}, data)
 
-            const novoProfessor = {
-                ...professor,
-                ...data,
-            };
+            let newObj = { ...professor, ...objAtualizacao }
+            console.log(newObj)
 
-            database.professores.splice(indice, 1, novoProfessor);
+            await update.insertProf(newObj)
 
-            return novoProfessor;
+            return newObj;
         },
-        deletaProfessor(_, { filtro: { id, email } }) {
+        async deletaProfessor(_, email) {
             /* 
                 Esse resolver é aonde deletamos os professores, ele pede como parametro o ID do professor 
-                ou o email, apenas um deles, se existri um professor com alguma dessas chaves o mesmo é deletado.
+                ou o email, apenas um deles, se existir um professor com alguma dessas chaves o mesmo é deletado.
                 E a função retorna se deu certo ou não a mutation.
             */
-            return deletaProfessorFiltro(id ? { id } : { email });
+            let resposta = await deletar.deleteProf(email.email)
+            console.log(email.email)
+            return resposta;
         },
     },
 };

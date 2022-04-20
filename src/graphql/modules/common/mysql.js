@@ -32,17 +32,32 @@ exports.getProfessorId = async (client, id) => {
     return users;
 }
 exports.getProfessorEmail = async (client, email) => {
-    let users = await client.query(`select * from professor where email = ?`, [email]);
+    const emailStringfy = String(email)
+    let del = await client.query(`select * from professor where email = ?`, [emailStringfy]);
 
-    return users
+    return del;
 }
 exports.getTodosProfessores = async (client) => {
     let users = await client.query(`select * from professor`);
 
-    return users
+    return users;
 }
 exports.getDisciplinaPorId = async (client, id) => {
 
     let users = await client.query(`select * from disciplina where id = ?`, [id]);
     return users;
+}
+exports.postProfessor = async (client, data) => {
+    let users = await client.query(`insert  into professor values
+    (null,?,?,?);`, [data.nome, data.email, data.disciplinas_id])
+    return users;
+}
+exports.updateProfessor = async (client, data) => {
+    let user = await client.query(`update professor set nome = ?, email=?, disciplina = ? where id = ?;`, [data.nome, data.email, data.disciplina, data.id])
+    console.log(user)
+}
+exports.deletProfessor = async (client, id) => {
+    console.log("delet professor", id);
+    let user = await client.query(`delete from professor where id = ?;`, [id])
+    console.log(user)
 }

@@ -1,17 +1,10 @@
-
 var common = require('../../../modules/common/mysql')
 var validacao = require('../../../../functions/validacao')
+var db = require('../../../../database/database')
 
-const Client = require('serverless-mysql')
 exports.insertProf = async (data, _,) => {
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+    const client = await db.conect()
+
     await common.init(client)
     console.log(data)
     var resp = await common.postProfessor(client, data);

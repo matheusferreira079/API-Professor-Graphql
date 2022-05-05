@@ -3,21 +3,20 @@ exports.init = async (client) => {
     await client.query(`
     CREATE TABLE IF NOT EXISTS disciplina
     (
-        id MEDIUMINT UNSIGNED not null AUTO_INCREMENT, 
-        nome varchar(100) not null,
-        cargaHoraria int, 
-        PRIMARY KEY (id)
+        id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+        nome VARCHAR(100) NOT NULL,
+        cargaHoraria INT, 
+        CONSTRAINT UC_disciplina UNIQUE (id, nome)
     );  
     `)
 
     await client.query(`
     CREATE TABLE IF NOT EXISTS professor
     (
-        id MEDIUMINT UNSIGNED not null AUTO_INCREMENT, 
-        nome varchar(100) not null,
-        email varchar(100) not null,
-        disciplina int,
-        PRIMARY KEY (id)
+        id INT PRIMARY KEY NOT NULL AUTO_INCREMENT, 
+        nome varchar(100) NOT NULL,
+        email varchar(100) NOT NULL,
+        disciplina INT
     );  
     `)
 }

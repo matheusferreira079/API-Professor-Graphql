@@ -1,17 +1,11 @@
-
 var common = require('../../../modules/common/mysql')
 var validacao = require('../../../../functions/validacao')
+var db = require('../../../../database/database')
 
-const Client = require('serverless-mysql')
 exports.func = async (_,) => {
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+
+    const client = await db.conect()
+
     await common.init(client)
 
     await validacao.disciplinaValue(client)
@@ -24,14 +18,9 @@ exports.func = async (_,) => {
     return respJson
 }
 exports.funcDisciplinaId = async (id, _) => {
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+
+    const client = await db.conect()
+
     await common.init(client)
     var resp = await common.getDisciplinaPorId(client, id)
     respStringificado = JSON.stringify(resp)

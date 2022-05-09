@@ -1,19 +1,14 @@
-
 var common = require('../../../modules/common/mysql')
 var validacao = require('../../../../functions/validacao')
+var db = require('../../../../database/database')
 
-const Client = require('serverless-mysql')
 exports.func = async (id, _,) => {
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+    const client = await db.conect()
+
     await common.init(client)
 
+    await validacao.professorValue(client)
+    
     var resp = await common.getProfessorId(client, id);
 
     respStringificado = JSON.stringify(resp)
@@ -24,14 +19,8 @@ exports.func = async (id, _,) => {
     return respJson[0]
 }
 exports.funcEmail = async (email, _,) => {
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+    const client = await db.conect()
+
     await common.init(client)
 
     var resp = await common.getProfessorEmail(client, email);

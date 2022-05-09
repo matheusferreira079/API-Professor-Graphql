@@ -1,17 +1,11 @@
 var common = require('../../../modules/common/mysql')
 var validacao = require('../../../../functions/validacao')
+var db = require('../../../../database/database')
 
-const Client = require('serverless-mysql')
 exports.deleteProf = async (email, _,) => {
+    const client = await db.conect()
     let retorno = true;
-    var client = Client({
-        config: {
-            host: "localhost",
-            database: "graphqlExemple",
-            user: "root",
-            password: "password"
-        }
-    })
+    
     await common.init(client)
 
     var resp = await common.getProfessorEmail(client, email)

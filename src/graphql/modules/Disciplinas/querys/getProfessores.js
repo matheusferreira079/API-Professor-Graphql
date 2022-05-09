@@ -7,6 +7,8 @@ exports.func = async (id, _,) => {
 
     await common.init(client)
 
+    await validacao.professorValue(client)
+    
     var resp = await common.getTodosProfessores(client);
 
     respStringificado = JSON.stringify(resp)
